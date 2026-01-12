@@ -152,8 +152,8 @@ This project was built to:
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/kanwal-codes/Hotel_Reservation_System.git
-cd Hotel_Reservation_System
+git clone https://github.com/kanwal-codes/Hotel_Management.git
+cd Hotel_Management
 ```
 
 ### 2️⃣ Create Database
@@ -351,7 +351,7 @@ Licensed under the **MIT License**.
 **Kanwaljot Singh**
 
 * GitHub: [@kanwal-codes](https://github.com/kanwal-codes)
-* Repository: [Hotel_Reservation_System](https://github.com/kanwal-codes/Hotel_Reservation_System)
+* Repository: [Hotel_Management](https://github.com/kanwal-codes/Hotel_Management)
 
 ---
 
