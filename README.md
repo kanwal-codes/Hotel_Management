@@ -270,7 +270,6 @@ hotel-reservation-system/
 │   ├── create_schema.sql
 │   ├── seed_data.sql
 │   └── ...
-├── docs/                          # Project documentation
 ├── pom.xml                        # Maven configuration
 └── README.md
 ```
@@ -352,17 +351,6 @@ Licensed under the **MIT License**.
 
 * GitHub: [@kanwal-codes](https://github.com/kanwal-codes)
 * Repository: [Hotel_Management](https://github.com/kanwal-codes/Hotel_Management)
-
----
-
-## 📚 Documentation
-
-For detailed documentation, see the `docs/` folder:
-
-* **Getting Started**: `docs/01-getting-started/`
-* **Project Overview**: `docs/02-project-overview/`
-* **Requirements**: `docs/03-requirements-compliance/`
-* **Implementation Details**: `docs/04-implementation/`
 
 ---
 
