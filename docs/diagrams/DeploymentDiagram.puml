@@ -1,0 +1,61 @@
+@startuml Deployment Diagram
+
+!theme plain
+
+node "Desktop Application" {
+    component "JavaFX Kiosk UI" as KioskUI
+    component "JavaFX Admin UI" as AdminUI
+    component "JavaFX Feedback UI" as FeedbackUI
+    
+    component "Application Layer" as AppLayer {
+        component "Controllers" as Controllers
+        component "Services" as Services {
+            [ReservationService]
+            [BillingService]
+            [ReportingService]
+            [LoyaltyService]
+        }
+        component "Repositories" as Repos
+    }
+    
+    component "JPA/Hibernate ORM" as ORM
+    
+    database "MySQL Database\n(hotel_db)" as DB {
+        entity "reservations" as ResTable
+        entity "guests" as GuestTable
+        entity "rooms" as RoomTable
+        entity "billings" as BillingTable
+        entity "payments" as PaymentTable
+        entity "audit_log" as AuditTable
+    }
+    
+    folder "File System" as FS {
+        file "system_logs.log\nsystem_logs.0.log\n...\nsystem_logs.9.log" as Logs
+        file "*.pdf" as PDFs
+        file "*.csv" as CSVs
+    }
+}
+
+KioskUI --> Controllers
+AdminUI --> Controllers
+FeedbackUI --> Controllers
+
+Controllers --> Services
+Services --> Repos
+Repos --> ORM
+ORM --> DB
+
+Services --> Logs : Write logs\nRead logs (ReportingService)
+[ReportingService] --> AuditTable : Read from database
+[ReportingService] --> Logs : Read from log files\n(alternative source)
+Services --> PDFs : Export reports
+Services --> CSVs : Export reports
+
+note right of Logs
+    ReportingService can read
+    activity logs from either:
+    - Database (audit_log table)
+    - Log files (system_logs.*.log)
+end note
+
+@enduml

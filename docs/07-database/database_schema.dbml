@@ -1,0 +1,167 @@
+// Hotel Reservation System - Database Schema
+// Use this file with dbdiagram.io
+// Docs: https://dbml.dbdiagram.io/docs
+
+// ============================================
+// ENUMS (shown as varchar with notes)
+// ============================================
+
+Table hotels {
+  id integer [primary key, increment]
+  name varchar(100)
+  city varchar(100)
+  created_at timestamp
+}
+
+Table rooms {
+  id integer [primary key, increment]
+  hotel_id integer [not null]
+  room_number varchar(10) [unique]
+  type varchar [note: 'SINGLE, DOUBLE, DELUXE, PENTHOUSE']
+  beds integer
+  base_price decimal(10,2)
+  status varchar [note: 'AVAILABLE, OCCUPIED, MAINTENANCE', default: 'AVAILABLE']
+  created_at timestamp
+}
+
+Table guests {
+  id integer [primary key, increment]
+  name varchar(100)
+  phone varchar(20)
+  email varchar(100)
+  address varchar(255)
+  loyalty_points integer [default: 0]
+  loyalty_number varchar(50) [unique]
+  created_at timestamp
+}
+
+Table reservations {
+  id integer [primary key, increment]
+  guest_id integer [not null]
+  check_in date
+  check_out date
+  num_adults integer
+  num_children integer [default: 0]
+  status varchar [note: 'PENDING, CONFIRMED, CANCELLED, CHECKED_OUT', default: 'PENDING']
+  created_at timestamp
+}
+
+Table reservation_rooms {
+  reservation_id integer [not null]
+  room_id integer [not null]
+}
+
+Table service_addons {
+  id integer [primary key, increment]
+  name varchar(100)
+  price decimal(10,2)
+  pricing_model varchar [note: 'PER_NIGHT, PER_RESERVATION']
+  active boolean [default: true]
+}
+
+Table reservation_addons {
+  reservation_id integer [not null]
+  addon_id integer [not null]
+  quantity integer [default: 1]
+}
+
+Table billings {
+  id integer [primary key, increment]
+  reservation_id integer [unique, not null]
+  subtotal decimal(10,2)
+  tax_rate decimal(5,4) [default: 0.10]
+  tax_amount decimal(10,2)
+  discount_value decimal(10,2) [default: 0]
+  loyalty_redeemed_points integer [default: 0]
+  total_amount decimal(10,2)
+  paid_amount decimal(10,2) [default: 0]
+  balance_amount decimal(10,2)
+  payment_status varchar(50) [default: 'PENDING']
+  created_by varchar(100)
+  created_at timestamp
+}
+
+Table payments {
+  id integer [primary key, increment]
+  billing_id integer [not null]
+  method varchar [note: 'CASH, CARD, POINTS']
+  amount decimal(10,2)
+  created_at timestamp
+}
+
+Table feedbacks {
+  id integer [primary key, increment]
+  guest_id integer [not null]
+  reservation_id integer [not null]
+  rating integer [note: '1-5']
+  comments text
+  sentiment_tag varchar(50)
+  created_at timestamp
+}
+
+Table waitlists {
+  id integer [primary key, increment]
+  guest_id integer [unique, not null]
+  requested_type varchar [note: 'SINGLE, DOUBLE, DELUXE, PENTHOUSE']
+  date_range_start date
+  date_range_end date
+  status varchar(50) [default: 'PENDING']
+  created_at timestamp
+}
+
+Table admin_users {
+  id integer [primary key, increment]
+  username varchar(50) [unique]
+  password_hash varchar(255)
+  role varchar [note: 'ADMIN, MANAGER']
+  active boolean [default: true]
+  created_at timestamp
+}
+
+Table audit_logs {
+  id integer [primary key, increment]
+  timestamp timestamp
+  actor varchar(100)
+  action varchar(100)
+  entity_type varchar(50)
+  entity_id integer
+  message text
+  admin_user_id integer
+}
+
+// ============================================
+// RELATIONSHIPS
+// ============================================
+
+// Hotel to Room (One-to-Many)
+Ref: rooms.hotel_id > hotels.id
+
+// Guest to Reservation (One-to-Many)
+Ref: reservations.guest_id > guests.id
+
+// Guest to Feedback (One-to-Many)
+Ref: feedbacks.guest_id > guests.id
+
+// Guest to Waitlist (One-to-One)
+Ref: waitlists.guest_id > guests.id
+
+// Reservation to Feedback (One-to-Many)
+Ref: feedbacks.reservation_id > reservations.id
+
+// Reservation to Billing (One-to-One)
+Ref: billings.reservation_id > reservations.id
+
+// Billing to Payment (One-to-Many)
+Ref: payments.billing_id > billings.id
+
+// Reservation to Room (Many-to-Many via ReservationRoom)
+Ref: reservation_rooms.reservation_id > reservations.id
+Ref: reservation_rooms.room_id > rooms.id
+
+// Reservation to ServiceAddon (Many-to-Many via ReservationAddon)
+Ref: reservation_addons.reservation_id > reservations.id
+Ref: reservation_addons.addon_id > service_addons.id
+
+// AdminUser to AuditLog (One-to-Many)
+Ref: audit_logs.admin_user_id > admin_users.id
+

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.AdminDashboardController">
+   <top>
+      <HBox spacing="20.0" alignment="CENTER_LEFT" styleClass="header-bg">
+         <Button onAction="#handleBackToKiosk" text="← Back" styleClass="btn-back" />
+         <Label fx:id="welcomeLabel" text="Welcome, Admin" styleClass="body-text" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+         <Region HBox.hgrow="ALWAYS" />
+         <Button onAction="#handleLogout" text="Logout" styleClass="btn-danger" />
+      </HBox>
+   </top>
+
+   <left>
+      <VBox spacing="12.0" styleClass="sidebar-bg">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <Label text="Navigation" styleClass="subsection-title" />
+         <Separator />
+         <Button onAction="#createReservation" prefWidth="200.0" text="Create Reservation" styleClass="nav-button" />
+         <Button onAction="#viewReports" prefWidth="200.0" text="View Reports" styleClass="nav-button" />
+         <Button onAction="#manageWaitlist" prefWidth="200.0" text="Manage Waitlist" styleClass="nav-button" />
+         <Button onAction="#loyaltyDashboard" prefWidth="200.0" text="Loyalty Dashboard" styleClass="nav-button" />
+         <Button onAction="#manageFeedback" prefWidth="200.0" text="Feedback Management" styleClass="nav-button" />
+      </VBox>
+   </left>
+
+   <center>
+      <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+         <VBox spacing="20.0">
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+
+         <!-- Search and Filter Section -->
+         <VBox spacing="15.0" styleClass="card">
+            <Label styleClass="section-title" text="Search &amp; Filter Reservations" />
+            
+            <!-- Search Bar -->
+            <HBox spacing="12.0" alignment="CENTER_LEFT">
+               <Label text="Search:" styleClass="label-bold" style="-fx-min-width: 80;" />
+               <TextField fx:id="searchField" onKeyReleased="#searchReservations" prefWidth="300.0" promptText="Search by name, phone..." styleClass="text-field" />
+               <Button onAction="#searchReservations" text="Search" styleClass="btn-success" />
+               <Button onAction="#clearSearch" text="Clear" styleClass="btn-secondary" />
+            </HBox>
+            
+            <!-- Filter Options -->
+            <HBox spacing="15.0" alignment="CENTER_LEFT">
+               <Label text="Status:" styleClass="label-bold" style="-fx-min-width: 80;" />
+               <ComboBox fx:id="statusFilterComboBox" onAction="#searchReservations" prefWidth="150.0" promptText="All Statuses" styleClass="combo-box" />
+               
+               <Label text="Date Range:" styleClass="label-bold" style="-fx-min-width: 100;" />
+               <DatePicker fx:id="startDatePicker" onAction="#searchReservations" promptText="Start Date" styleClass="date-picker" />
+               <DatePicker fx:id="endDatePicker" onAction="#searchReservations" promptText="End Date" styleClass="date-picker" />
+               
+               <Label text="Sort By:" styleClass="label-bold" style="-fx-min-width: 70;" />
+               <ComboBox fx:id="sortByComboBox" onAction="#sortReservations" prefWidth="150.0" styleClass="combo-box" />
+            </HBox>
+         </VBox>
+
+         <!-- Results Table -->
+         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <Label styleClass="section-title" text="Reservations" />
+               <Region HBox.hgrow="ALWAYS" />
+            </HBox>
+            <TableView fx:id="reservationsTable" prefHeight="400.0" VBox.vgrow="ALWAYS" styleClass="table-view">
+               <columns>
+                  <TableColumn fx:id="guestNameColumn" minWidth="120.0" prefWidth="120.0" sortable="true" text="Guest Name" />
+                  <TableColumn fx:id="phoneColumn" minWidth="120.0" prefWidth="120.0" sortable="true" text="Phone" />
+                  <TableColumn fx:id="checkInColumn" minWidth="110.0" prefWidth="110.0" sortable="true" text="Check-in" />
+                  <TableColumn fx:id="checkOutColumn" minWidth="110.0" prefWidth="110.0" sortable="true" text="Check-out" />
+                  <TableColumn fx:id="statusColumn" minWidth="100.0" prefWidth="100.0" sortable="true" text="Status" />
+                  <TableColumn fx:id="balanceColumn" minWidth="120.0" prefWidth="120.0" sortable="true" text="Balance" />
+                  <TableColumn fx:id="actionsColumn" minWidth="200.0" prefWidth="200.0" text="Actions" sortable="false" />
+               </columns>
+            </TableView>
+         </VBox>
+
+         <!-- Pagination Controls -->
+         <HBox spacing="15.0" alignment="CENTER" styleClass="pagination-container">
+            <Button fx:id="prevButton" disable="true" onAction="#previousPage" text="Previous" styleClass="btn-secondary" />
+            <Label fx:id="pageLabel" text="Page 1 of 1" styleClass="label-bold" style="-fx-padding: 0 20;" />
+            <Label text="Items per page:" styleClass="label-standard" />
+            <ComboBox fx:id="itemsPerPageComboBox" onAction="#changeItemsPerPage" prefWidth="80.0" styleClass="combo-box" />
+            <Button fx:id="nextButton" disable="true" onAction="#nextPage" text="Next" styleClass="btn-secondary" />
+         </HBox>
+      </VBox>
+      </ScrollPane>
+   </center>
+
+</BorderPane>

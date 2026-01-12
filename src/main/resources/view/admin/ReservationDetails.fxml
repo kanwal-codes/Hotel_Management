@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.AdminReservationController">
+   <top>
+      <HBox spacing="20.0" alignment="CENTER_LEFT" styleClass="header-bg">
+         <Button onAction="#backToDashboard" text="← Back" styleClass="btn-back" />
+         <Label fx:id="reservationIdLabel" styleClass="page-title" text="Reservation Details" />
+         <Region HBox.hgrow="ALWAYS" />
+         <Label fx:id="modeLabel" styleClass="body-text" style="-fx-text-fill: #3498db; -fx-background-color: white; -fx-padding: 5 10; -fx-background-radius: 8;" text="" visible="false" />
+      </HBox>
+   </top>
+   
+   <center>
+      <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" styleClass="scroll-pane">
+         <VBox spacing="25.0">
+            <padding>
+               <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+            
+            <!-- Guest Information Section -->
+            <VBox spacing="12.0" styleClass="card">
+               <Label styleClass="section-title" text="Guest Information" />
+               <Separator />
+               <GridPane hgap="20.0" vgap="15.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="150.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="300.0" />
+                  </columnConstraints>
+                  
+                  <children>
+                     <Label text="Name:" GridPane.rowIndex="0" styleClass="label-bold" />
+                     <TextField fx:id="guestNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field" />
+                     
+                     <Label text="Phone:" GridPane.rowIndex="1" styleClass="label-bold" />
+                     <TextField fx:id="guestPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field" />
+                     
+                     <Label text="Email:" GridPane.rowIndex="2" styleClass="label-bold" />
+                     <TextField fx:id="guestEmailField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-field" onKeyReleased="#updateLoyaltyEnrollmentButton" />
+                     
+                     <VBox fx:id="loyaltyEnrollmentSection" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <Button fx:id="enrollLoyaltyButton" onAction="#enrollGuestInLoyalty" text="Enroll in Loyalty Program" styleClass="btn-info" />
+                        </HBox>
+                        <HBox fx:id="loyaltyContainer" spacing="10.0" alignment="CENTER_LEFT" visible="false" managed="false">
+                           <Label text="Loyalty Number:" styleClass="label-bold" />
+                           <TextField fx:id="loyaltyNumberField" prefWidth="200.0" promptText="Optional" styleClass="text-field" HBox.hgrow="ALWAYS" editable="false" />
+                        </HBox>
+                     </VBox>
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <!-- Occupancy Section -->
+            <VBox spacing="12.0" styleClass="card">
+               <Label styleClass="section-title" text="Occupancy" />
+               <Separator />
+               <GridPane hgap="20.0" vgap="15.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="150.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
+                  </columnConstraints>
+                  <children>
+                     <Label text="Adults *" GridPane.rowIndex="0" styleClass="label-bold" />
+                     <TextField fx:id="numAdultsField" prefWidth="80.0" promptText="e.g. 2"
+                                GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field" />
+                     <Label fx:id="adultsErrorLabel" GridPane.columnIndex="2" GridPane.rowIndex="0"
+                            styleClass="text-error" text="" visible="false" wrapText="true" />
+                     
+                     <Label text="Children" GridPane.rowIndex="1" styleClass="label-bold" />
+                     <TextField fx:id="numChildrenField" prefWidth="80.0" promptText="0"
+                                GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field" />
+                     <Label fx:id="childrenErrorLabel" GridPane.columnIndex="2" GridPane.rowIndex="1"
+                            styleClass="text-error" text="" visible="false" wrapText="true" />
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <!-- Reservation Details Section -->
+            <VBox spacing="12.0" styleClass="card">
+               <Label styleClass="section-title" text="Reservation Details" />
+               <Separator />
+               <GridPane hgap="20.0" vgap="15.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="150.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="300.0" />
+                  </columnConstraints>
+                  
+                  <children>
+                     <Label text="Reservation ID:" GridPane.rowIndex="0" styleClass="label-bold" />
+                     <Label fx:id="reservationIdDisplayLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="label-bold" style="-fx-text-fill: #2c3e50;" />
+                     
+                     <Label text="Check-in Date:" GridPane.rowIndex="1" styleClass="label-bold" />
+                     <DatePicker fx:id="checkInDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200.0" styleClass="date-picker" />
+                     
+                     <Label text="Check-out Date:" GridPane.rowIndex="2" styleClass="label-bold" />
+                     <DatePicker fx:id="checkOutDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200.0" styleClass="date-picker" />
+                     
+                     <Label text="Status:" GridPane.rowIndex="3" styleClass="label-bold" />
+                     <ComboBox fx:id="statusComboBox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="combo-box" />
+                     
+                     <Label text="Total Guests:" GridPane.rowIndex="4" styleClass="label-bold" />
+                     <TextField fx:id="numberOfGuestsField" editable="false" prefWidth="100.0"
+                                GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="text-field" />
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <!-- Rooms Section -->
+            <VBox spacing="12.0" styleClass="card">
+               <HBox spacing="15.0" alignment="CENTER_LEFT">
+                  <Label styleClass="section-title" text="Rooms" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="addRoomButton" onAction="#addRoom" text="+ Add Room" styleClass="btn-success" />
+                  <Button fx:id="removeRoomButton" onAction="#removeSelectedRoom" text="Remove Selected" styleClass="btn-danger" />
+               </HBox>
+               <Separator />
+               <!-- Room Type Summary - Shows current room types and counts -->
+               <VBox spacing="5.0" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-background-radius: 5;">
+                  <Label styleClass="label-bold" text="Room Assignment Summary:" />
+                  <Label fx:id="roomTypeSummaryLabel" styleClass="body-text" text="No rooms assigned" />
+               </VBox>
+               <Separator />
+               <TableView fx:id="roomsTable" prefHeight="150.0" styleClass="table-view">
+                  <columns>
+                     <TableColumn fx:id="roomTypeColumn" minWidth="150.0" text="Room Type" />
+                     <TableColumn fx:id="roomCountColumn" minWidth="100.0" text="Count" />
+                     <TableColumn fx:id="roomCapacityColumn" minWidth="100.0" text="Capacity per Room" />
+                     <TableColumn fx:id="roomTotalCapacityColumn" minWidth="120.0" text="Total Capacity" />
+                  </columns>
+               </TableView>
+               <Label fx:id="roomSelectionErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+            </VBox>
+            
+            <!-- Services/Add-ons Section -->
+            <VBox spacing="12.0" styleClass="card">
+               <HBox spacing="15.0" alignment="CENTER_LEFT">
+                  <Label styleClass="section-title" text="Services/Add-ons" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="addServiceButton" onAction="#addService" text="+ Add Service" styleClass="btn-success" />
+                  <Button fx:id="removeServiceButton" onAction="#removeSelectedService" text="Remove Selected" styleClass="btn-danger" />
+               </HBox>
+               <Separator />
+               <TableView fx:id="servicesTable" prefHeight="150.0" styleClass="table-view">
+                  <columns>
+                     <TableColumn fx:id="serviceNameColumn" minWidth="200.0" text="Service Name" />
+                     <TableColumn fx:id="servicePriceColumn" minWidth="120.0" text="Price" />
+                     <TableColumn fx:id="servicePricingModelColumn" minWidth="150.0" text="Pricing Model" />
+                     <TableColumn fx:id="serviceQuantityColumn" minWidth="100.0" text="Quantity" />
+                  </columns>
+               </TableView>
+               <Label fx:id="serviceErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+            </VBox>
+            
+            <!-- Billing Information Section -->
+            <VBox fx:id="billingInformationContainer" spacing="12.0" styleClass="card" visible="false" managed="false">
+               <Label styleClass="section-title" text="Billing Information" />
+               <Separator />
+               <GridPane hgap="20.0" vgap="12.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="180.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" halignment="LEFT" />
+                  </columnConstraints>
+                  
+                  <children>
+                     <Label text="Subtotal:" GridPane.rowIndex="0" styleClass="billing-label" />
+                     <Label fx:id="subtotalDisplayLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="billing-value" />
+                     
+                     <Label text="Tax:" GridPane.rowIndex="1" styleClass="billing-label" />
+                     <Label fx:id="taxDisplayLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="billing-value" />
+                     
+                     <Label text="Discount:" GridPane.rowIndex="2" styleClass="billing-label" />
+                     <Label fx:id="discountDisplayLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="billing-success" />
+                     
+                     <Separator GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                     
+                     <Label styleClass="billing-total" text="Total:" GridPane.rowIndex="4" />
+                     <Label fx:id="totalDisplayLabel" styleClass="billing-total" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     
+                     <Label text="Paid Amount:" GridPane.rowIndex="5" styleClass="billing-label" />
+                     <Label fx:id="paidAmountDisplayLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="billing-success" />
+                     
+                     <Label text="Balance:" GridPane.rowIndex="6" styleClass="billing-label" />
+                     <Label fx:id="balanceDisplayLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="billing-error" />
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <!-- Conflict Warning -->
+            <VBox spacing="8.0" visible="false" fx:id="conflictWarningContainer" styleClass="alert-warning">
+               <Label fx:id="conflictWarningLabel" styleClass="text-warning" text="" wrapText="true" />
+            </VBox>
+            
+            <!-- Action Buttons -->
+            <HBox spacing="12.0" alignment="CENTER" styleClass="card">
+               <Button fx:id="saveReservationButton" onAction="#saveReservationChanges" prefWidth="140.0" text="Save Changes" styleClass="btn-primary" />
+               <Button fx:id="processPaymentButton" disable="true" onAction="#openPaymentScreen" prefWidth="140.0" text="Process Payment" styleClass="btn-success" />
+               <Button fx:id="checkoutButton" disable="true" onAction="#openCheckoutScreen" prefWidth="140.0" text="Checkout" styleClass="btn-warning" />
+               <Button fx:id="cancelReservationButton" disable="true" onAction="#cancelReservation" prefWidth="140.0" text="Cancel" styleClass="btn-danger" />
+               <Button fx:id="deleteReservationButton" onAction="#deleteReservation" prefWidth="140.0" text="Delete" visible="false" styleClass="btn-danger" />
+            </HBox>
+         </VBox>
+      </ScrollPane>
+   </center>
+   
+</BorderPane>

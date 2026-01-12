@@ -1,0 +1,43 @@
+@startuml Observer Pattern - Waitlist Notification Sequence
+
+!theme plain
+
+participant "ReservationService" as RS
+participant "RoomAvailabilityPublisher" as Publisher
+participant "WaitlistSubscriber" as Subscriber
+participant "WaitlistService" as WS
+participant "Admin" as Admin
+
+RS -> RS: checkoutReservation(reservationId)
+RS -> RS: Free rooms (set status to AVAILABLE)
+
+loop For each room
+    RS -> Publisher: publishRoomAvailable(room)
+    Publisher -> Publisher: Notify all observers
+    
+    loop For each observer
+        Publisher -> Subscriber: update(message)
+        Subscriber -> WS: notifyAvailableRoom(room)
+        WS -> WS: Check waitlist for matching preferences
+        WS -> WS: Create notification
+        WS -> Admin: Display notification
+    end
+end
+
+RS -> RS: Complete checkout
+RS --> RS: Checkout successful
+
+note right of Publisher
+    Observer Pattern:
+    - Decouples room availability
+    from waitlist management
+    - Easy to add new observers
+    (e.g., email notifications)
+end note
+
+@enduml
+
+
+
+
+

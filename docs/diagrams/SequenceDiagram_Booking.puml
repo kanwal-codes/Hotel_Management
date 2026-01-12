@@ -1,0 +1,124 @@
+@startuml Booking Flow Sequence Diagram
+
+!theme plain
+
+actor Guest
+participant "KioskController" as Kiosk
+participant "KioskRoomSelectionHelper" as KRSH
+participant "KioskLoyaltyHelper" as KLH
+participant "ReservationService" as RS
+participant "RoomSuggestion" as RoomSug
+participant "GuestRepository" as GR
+participant "RoomRepository" as RR
+participant "BillingService" as BS
+participant "LoyaltyService" as LS
+participant "Database" as DB
+
+== Guest Details Entry ==
+Guest -> Kiosk: Enter guest details (name, email, phone)
+Kiosk -> Kiosk: Validate input fields
+Kiosk -> GR: Find or create guest
+GR -> DB: Query guest by email/phone
+DB --> GR: Guest entity (or null)
+alt Guest not found
+    GR -> DB: Create new guest
+    DB --> GR: New guest entity
+end
+GR --> Kiosk: Guest object
+
+== Optional Loyalty Enrollment ==
+Guest -> Kiosk: Click "Enroll in Loyalty"
+Kiosk -> KLH: enrollInLoyaltyFromGuestDetails(guest)
+KLH -> KLH: Show confirmation dialog\nwith guest information
+Guest -> KLH: Confirm enrollment
+KLH -> LS: enrollGuest(guest)
+LS -> DB: Save guest with loyalty number
+DB --> LS: Guest updated
+LS --> KLH: Loyalty number
+KLH --> Kiosk: Enrollment successful
+Kiosk --> Guest: Show loyalty number
+
+== Room Selection ==
+Guest -> Kiosk: Select dates and number of guests
+Kiosk -> RS: suggestRooms(numAdults, numChildren, checkIn, checkOut)
+RS -> RR: getAvailableRooms(roomType, checkIn, checkOut)
+RR -> DB: Query available rooms
+DB --> RR: Room list
+RR --> RS: Available rooms
+
+alt Total people > 4
+    RS -> RS: Calculate combination suggestions\n(double + single rooms)
+    RS -> RoomSug: new RoomSuggestion(primaryRoom, primaryQty,\nsecondaryRoomType, secondaryQty)
+    RoomSug --> RS: Combination suggestion
+else Total people <= 4
+    RS -> RoomSug: new RoomSuggestion(room, quantity)
+    RoomSug --> RS: Single room suggestion
+end
+
+RS --> Kiosk: List<RoomSuggestion>
+Kiosk -> KRSH: loadRoomSuggestionsIntoTable(suggestions)
+KRSH -> KRSH: Display suggestions in table\n(handles combinations)
+
+Guest -> Kiosk: Select room suggestion
+Kiosk -> KRSH: processAcceptedSuggestion(suggestion)
+alt Suggestion is combination
+    KRSH -> RR: getAvailableRooms(primaryRoomType)
+    RR --> KRSH: Primary rooms
+    KRSH -> RR: getAvailableRooms(secondaryRoomType)
+    RR --> KRSH: Secondary rooms
+    KRSH -> KRSH: Combine primary and secondary rooms
+else Single room type
+    KRSH -> RR: getAvailableRooms(roomType)
+    RR --> KRSH: Rooms
+end
+KRSH --> Kiosk: List<Room> selectedRooms
+
+== Add-ons Selection ==
+Guest -> Kiosk: Select add-ons
+Kiosk -> Kiosk: Calculate add-on prices
+
+== Booking Confirmation ==
+Guest -> Kiosk: Confirm booking
+Kiosk -> RS: validateDates(checkIn, checkOut)
+RS --> Kiosk: Dates valid
+Kiosk -> RS: validateOccupancy(rooms, numAdults, numChildren)
+RS --> Kiosk: Occupancy valid
+
+Kiosk -> RS: createReservation(guest, rooms, addons, dates)
+RS -> RR: Check room availability
+RR -> DB: Verify room status
+DB --> RR: Room status
+RR --> RS: Rooms available
+
+RS -> RS: Create Reservation entity
+RS -> RS: Create ReservationRoom entities
+RS -> RS: Create ReservationAddon entities
+RS -> DB: Save reservation
+DB --> RS: Reservation saved
+
+RS -> BS: createBilling(reservation, subtotal)
+BS -> BS: Calculate tax
+BS -> BS: Calculate total using BillingStrategy
+BS -> DB: Save billing
+DB --> BS: Billing saved
+BS --> RS: Billing object
+
+RS -> DB: Update room status to OCCUPIED
+DB --> RS: Rooms updated
+RS --> Kiosk: Reservation created
+
+== Optional Deposit at Booking ==
+alt Guest pays deposit
+    Guest -> Kiosk: Pay deposit
+    Kiosk -> BS: createDeposit(billing, method, amount, actor)
+    BS -> BS: processPayment(billing, method, amount, actor)
+    BS -> DB: Save payment
+    DB --> BS: Payment saved
+    BS -> DB: Update billing (paidAmount, balanceAmount)
+    DB --> BS: Billing updated
+    BS --> Kiosk: Payment processed
+end
+
+Kiosk -> Guest: Show confirmation with reservation number
+
+@enduml

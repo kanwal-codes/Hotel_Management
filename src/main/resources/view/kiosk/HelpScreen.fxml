@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@../../styles/kiosk.css" 
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.hotel.controller.KioskHelpController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="header-bg">
+            <padding>
+                <Insets top="15.0" right="30.0" bottom="15.0" left="30.0"/>
+            </padding>
+            <Button text="← Back" styleClass="btn-back" onAction="#handleBack"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Help &amp; Instructions" styleClass="hero-title"/>
+        </HBox>
+    </top>
+    
+    <center>
+        <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" styleClass="scroll-pane">
+            <VBox alignment="TOP_CENTER" spacing="25.0">
+                <padding>
+                    <Insets bottom="40.0" left="50.0" right="50.0" top="40.0"/>
+                </padding>
+                
+                <!-- Welcome Message -->
+                <VBox spacing="10.0" alignment="CENTER">
+                    <Label styleClass="welcome-title" text="Welcome to Our Kiosk!" />
+                    <Label styleClass="welcome-subtitle" text="Follow these simple steps to make your reservation" />
+                </VBox>
+                
+                <!-- Instructions Card -->
+                <VBox spacing="20.0" alignment="TOP_CENTER" prefWidth="700.0" styleClass="card">
+                    <Label styleClass="subtitle" text="How to Use the Kiosk" />
+                    <Separator prefWidth="650.0" />
+                    
+                    <VBox spacing="20.0" alignment="TOP_LEFT">
+                        <!-- Step 1 -->
+                        <HBox spacing="15.0" alignment="TOP_LEFT">
+                            <VBox alignment="CENTER" spacing="0.0">
+                                <Label styleClass="label-bold" text="1" prefWidth="40.0" prefHeight="40.0" alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 18px;"/>
+                            </VBox>
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="label-bold" text="Start Your Booking" />
+                                <Label styleClass="body-text" text="Click 'Make Booking' from the main menu to begin your reservation process." wrapText="true" />
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Step 2 -->
+                        <HBox spacing="15.0" alignment="TOP_LEFT">
+                            <VBox alignment="CENTER" spacing="0.0">
+                                <Label styleClass="label-bold" text="2" prefWidth="40.0" prefHeight="40.0" alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 18px;"/>
+                            </VBox>
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="label-bold" text="Enter Your Details" />
+                                <Label styleClass="body-text" text="Provide your personal information including name, phone number, email, and address. The system will check if you're already in our database." wrapText="true" />
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Step 3 -->
+                        <HBox spacing="15.0" alignment="TOP_LEFT">
+                            <VBox alignment="CENTER" spacing="0.0">
+                                <Label styleClass="label-bold" text="3" prefWidth="40.0" prefHeight="40.0" alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 18px;"/>
+                            </VBox>
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="label-bold" text="Select Dates &amp; Guests" />
+                                <Label styleClass="body-text" text="Choose your check-in and check-out dates using the calendar. Enter the number of adults and children staying." wrapText="true" />
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Step 4 -->
+                        <HBox spacing="15.0" alignment="TOP_LEFT">
+                            <VBox alignment="CENTER" spacing="0.0">
+                                <Label styleClass="label-bold" text="4" prefWidth="40.0" prefHeight="40.0" alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 18px;"/>
+                            </VBox>
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="label-bold" text="Choose Your Room" />
+                                <Label styleClass="body-text" text="Browse available rooms based on your dates. You'll see room types, prices, and amenities. Select one or more rooms for your stay." wrapText="true" />
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Step 5 -->
+                        <HBox spacing="15.0" alignment="TOP_LEFT">
+                            <VBox alignment="CENTER" spacing="0.0">
+                                <Label styleClass="label-bold" text="5" prefWidth="40.0" prefHeight="40.0" alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 18px;"/>
+                            </VBox>
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="label-bold" text="Add Services (Optional)" />
+                                <Label styleClass="body-text" text="Enhance your stay by selecting add-on services like Wi-Fi, breakfast, spa access, or parking. Each service shows its price clearly." wrapText="true" />
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Step 6 -->
+                        <HBox spacing="15.0" alignment="TOP_LEFT">
+                            <VBox alignment="CENTER" spacing="0.0">
+                                <Label styleClass="label-bold" text="6" prefWidth="40.0" prefHeight="40.0" alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 18px;"/>
+                            </VBox>
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="label-bold" text="Review &amp; Confirm" />
+                                <Label styleClass="body-text" text="Review your complete booking summary including all charges, taxes, and total amount. Click 'Confirm' to complete your reservation." wrapText="true" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+                
+                <!-- Tips Card -->
+                <VBox spacing="15.0" alignment="TOP_CENTER" prefWidth="700.0" styleClass="card">
+                    <Label styleClass="subtitle" text="Helpful Tips" />
+                    <Separator prefWidth="650.0" />
+                    <VBox spacing="10.0" alignment="TOP_LEFT">
+                        <Label styleClass="body-text" text="• Weekend rates are 20% higher than weekday rates" wrapText="true" />
+                        <Label styleClass="body-text" text="• You can view your existing bookings using 'View Booking' option" wrapText="true" />
+                        <Label styleClass="body-text" text="• Loyalty members earn points with every booking" wrapText="true" />
+                        <Label styleClass="body-text" text="• Payment will be processed at the front desk during checkout" wrapText="true" />
+                        <Label styleClass="body-text" text="• Save your confirmation number for easy reference" wrapText="true" />
+                    </VBox>
+                </VBox>
+                
+                <!-- Call Staff Button -->
+                <VBox spacing="15.0" alignment="CENTER" prefWidth="700.0">
+                    <Label styleClass="body-text" text="Need assistance? Our staff is here to help!" wrapText="true" style="-fx-text-alignment: center;" />
+                    <Button text="Call Staff" prefHeight="60.0" prefWidth="300.0" styleClass="btn-primary" onAction="#handleCallStaff" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

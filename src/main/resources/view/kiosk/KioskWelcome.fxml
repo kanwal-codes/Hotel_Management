@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@../../styles/kiosk.css" 
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.hotel.controller.KioskWelcomeController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="header-bg">
+            <padding>
+                <Insets top="15.0" right="30.0" bottom="15.0" left="30.0"/>
+            </padding>
+            <Label text="Hotel Reservation System - Kiosk" styleClass="hero-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="userInfoLabel" text="" styleClass="body-text"/>
+            <Button fx:id="loginButton" text="Login" styleClass="btn-secondary" onAction="#handleLogin" visible="true"/>
+            <Button fx:id="logoutButton" text="Logout" styleClass="btn-secondary" onAction="#handleLogout" visible="false"/>
+        </HBox>
+    </top>
+    
+    <center>
+        <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" styleClass="scroll-pane">
+            <VBox alignment="TOP_CENTER" spacing="25.0">
+                <padding>
+                    <Insets bottom="40.0" left="50.0" right="50.0" top="40.0"/>
+                </padding>
+                
+                <!-- Welcome Title -->
+                <VBox spacing="10.0" alignment="CENTER">
+                    <Label styleClass="welcome-title" text="Welcome!" />
+                    <Label styleClass="welcome-subtitle" text="Please select an option to continue" />
+                </VBox>
+                
+                <!-- Main Options - Stacked Vertically -->
+                <VBox spacing="20.0" alignment="CENTER" prefWidth="400.0">
+                    <!-- Booking Button with Sub-options -->
+                    <VBox spacing="10.0" alignment="CENTER" prefWidth="400.0">
+                        <Button text="Booking" prefHeight="80.0" prefWidth="400.0" styleClass="kiosk-button" onAction="#handleBookingToggle"/>
+                        <VBox fx:id="bookingSubMenu" spacing="10.0" alignment="CENTER" visible="false" managed="false" prefWidth="400.0">
+                            <Button text="View Booking" prefHeight="60.0" prefWidth="350.0" styleClass="btn-secondary" onAction="#handleViewBooking"/>
+                            <Button text="Make Booking" prefHeight="60.0" prefWidth="350.0" styleClass="btn-secondary" onAction="#handleMakeBooking"/>
+                        </VBox>
+                    </VBox>
+                    
+                    <!-- Browse Services/Amenities -->
+                    <Button text="Browse Services/Amenities" prefHeight="80.0" prefWidth="400.0" styleClass="kiosk-button" onAction="#handleBrowseServices"/>
+                    
+                    <!-- Help/Contact -->
+                    <Button text="Help/Contact" prefHeight="80.0" prefWidth="400.0" styleClass="kiosk-button" onAction="#handleHelp"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/kiosk.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.KioskController">
+   <top>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="header-bg">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <Button onAction="#goBack" text="← Back" styleClass="btn-back" />
+         <Region HBox.hgrow="ALWAYS" />
+         <Button onAction="#showRules" text="Rules &amp; Regulations" styleClass="btn-secondary" />
+      </HBox>
+   </top>
+   
+   <center>
+      <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+         <VBox spacing="20.0" alignment="TOP_CENTER">
+            <padding>
+               <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+            </padding>
+            
+            <Label styleClass="screen-title" text="Guest Details" />
+            
+            <!-- Guest Occupancy Section -->
+            <VBox spacing="15.0" alignment="CENTER" prefWidth="500.0" styleClass="card">
+               <Label styleClass="subtitle" text="Guest Occupancy" />
+               <Separator prefWidth="450.0" />
+               
+               <VBox spacing="15.0">
+                  <VBox spacing="5.0">
+                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <Label prefWidth="180.0" styleClass="label-bold" text="Number of Adults *" />
+                        <TextField fx:id="numAdultsField" onKeyReleased="#checkOccupancyFields" prefWidth="200.0" promptText="Enter number of adults" styleClass="text-field" />
+                     </HBox>
+                     <Label fx:id="adultsErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+                  </VBox>
+                  
+                  <VBox spacing="5.0">
+                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <Label prefWidth="180.0" styleClass="label-bold" text="Number of Children" />
+                        <TextField fx:id="numChildrenField" onKeyReleased="#checkOccupancyFields" prefWidth="200.0" promptText="Enter number of children (optional)" styleClass="text-field" />
+                     </HBox>
+                     <Label fx:id="childrenErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+                  </VBox>
+               </VBox>
+            </VBox>
+            
+            <!-- Reservation Dates Section -->
+            <VBox spacing="15.0" alignment="CENTER" prefWidth="500.0" styleClass="card">
+               <Label styleClass="subtitle" text="Reservation Dates" />
+               <Separator prefWidth="450.0" />
+               
+               <VBox spacing="15.0">
+                  <VBox spacing="5.0">
+                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <Label prefWidth="180.0" styleClass="label-bold" text="Check-in Date *" />
+                        <DatePicker fx:id="checkInDatePicker" onAction="#validateCheckInDate" prefWidth="200.0" styleClass="date-picker" />
+                     </HBox>
+                     <Label fx:id="checkInErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+                  </VBox>
+                  
+                  <VBox spacing="5.0">
+                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <Label prefWidth="180.0" styleClass="label-bold" text="Check-out Date *" />
+                        <DatePicker fx:id="checkOutDatePicker" onAction="#validateCheckOutDate" prefWidth="200.0" styleClass="date-picker" />
+                     </HBox>
+                     <Label fx:id="checkOutErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+                  </VBox>
+                  
+                  <!-- Number of Nights Display -->
+                  <VBox fx:id="nightsInfoContainer" spacing="5.0" alignment="CENTER" visible="false" managed="false">
+                     <Label fx:id="numNightsDisplayLabel" styleClass="body-text" text="" />
+                  </VBox>
+               </VBox>
+            </VBox>
+            
+            <!-- Loyalty Number Lookup (Optional) -->
+            <VBox spacing="15.0" alignment="CENTER" prefWidth="500.0" styleClass="card">
+               <Label styleClass="subtitle" text="Loyalty Program (Optional)" />
+               <Separator prefWidth="450.0" />
+               
+               <VBox spacing="10.0">
+                  <VBox spacing="5.0">
+                     <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <Label prefWidth="180.0" styleClass="label-bold" text="Loyalty Number" />
+                        <TextField fx:id="loyaltyNumberField" prefWidth="200.0" promptText="Enter your loyalty number (optional)" styleClass="text-field" />
+                        <Button onAction="#lookupLoyalty" prefWidth="100.0" styleClass="btn-secondary" text="Lookup" />
+                     </HBox>
+                     <Label fx:id="loyaltyLookupLabel" styleClass="body-text" text="" visible="false" wrapText="true" />
+                  </VBox>
+                  
+                  <!-- Enrollment Option (shown if not enrolled) -->
+                  <VBox fx:id="loyaltyEnrollmentContainer" spacing="10.0" alignment="CENTER" visible="false" managed="false">
+                     <Separator prefWidth="450.0" />
+                     <Label styleClass="body-text" text="Not enrolled in our loyalty program?" wrapText="true" />
+                     <Label styleClass="body-text" text="Earn points on every stay and redeem them for discounts!" wrapText="true" />
+                     <Button onAction="#enrollInLoyaltyFromGuestDetails" prefWidth="200.0" styleClass="btn-primary" text="Enroll Now" />
+                  </VBox>
+                  
+                  <!-- Already Enrolled Display -->
+                  <VBox fx:id="loyaltyEnrolledDisplayContainer" spacing="5.0" alignment="CENTER" visible="false" managed="false">
+                     <Separator prefWidth="450.0" />
+                     <Label fx:id="loyaltyEnrolledLabel" styleClass="body-text" text="" wrapText="true" />
+                  </VBox>
+               </VBox>
+            </VBox>
+            
+            <!-- Guest Contact Information Section -->
+            <VBox spacing="20.0" alignment="CENTER" prefWidth="500.0" styleClass="card">
+               <Label styleClass="subtitle" text="Contact Information" />
+               <Separator prefWidth="450.0" />
+               
+               <GridPane hgap="10.0" vgap="10.0" alignment="CENTER">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="150.0" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="300.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="80.0" prefHeight="80.0" />
+                  </rowConstraints>
+                  
+                  <children>
+                     <Label text="Name *" styleClass="label-bold" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+                     <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                        <TextField fx:id="nameField" prefWidth="300.0" promptText="Enter your full name" styleClass="text-field" />
+                        <Label fx:id="nameErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+                     </VBox>
+                     
+                     <Label text="Phone *" styleClass="label-bold" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                     <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                        <TextField fx:id="phoneField" prefWidth="300.0" promptText="Enter phone number" styleClass="text-field" />
+                        <Label fx:id="phoneErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+                     </VBox>
+                     
+                     <Label text="Email *" styleClass="label-bold" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                     <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                        <TextField fx:id="emailField" prefWidth="300.0" promptText="Enter email address" styleClass="text-field" />
+                        <Label fx:id="emailErrorLabel" styleClass="text-error" text="" visible="false" wrapText="true" />
+                     </VBox>
+                     
+                     <Label text="Address (optional)" styleClass="label-standard" GridPane.rowIndex="3" />
+                     <TextArea fx:id="addressField" prefHeight="80.0" prefWidth="300.0" promptText="Enter address (optional)" styleClass="text-area" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <HBox spacing="20.0" alignment="CENTER">
+               <Button onAction="#goBack" prefWidth="100.0" text="Back" styleClass="btn-secondary" />
+               <Button fx:id="nextButtonGuest" onAction="#validateGuestDetails" prefWidth="100.0" text="Next" styleClass="btn-primary" disable="true" />
+            </HBox>
+         </VBox>
+      </ScrollPane>
+   </center>
+   
+</BorderPane>
+

@@ -1,0 +1,78 @@
+@startuml Payment Processing Sequence Diagram
+
+!theme plain
+
+actor Admin
+participant "AdminPaymentController" as APC
+participant "BillingService" as BS
+participant "PaymentRepository" as PR
+participant "LoyaltyService" as LS
+participant "GuestRepository" as GR
+participant "ActivityLogService" as ALS
+participant "Database" as DB
+
+== Full Payment ==
+Admin -> APC: Process full payment
+APC -> APC: Validate payment amount
+APC -> BS: processPayment(billing, method, amount, actor)
+
+BS -> DB: Begin transaction
+BS -> BS: Validate amount > 0
+BS -> BS: Create Payment entity
+BS -> PR: save(payment)
+PR -> DB: INSERT payment
+DB --> PR: Payment saved
+PR --> BS: Payment object
+
+BS -> BS: Update billing paidAmount
+BS -> BS: Recalculate balance using BillingStrategy
+BS -> DB: UPDATE billing
+DB --> BS: Billing updated
+
+alt Payment method is not Points
+    BS -> LS: earnPoints(guest, amount)
+    LS -> GR: Get guest
+    GR -> DB: Query guest
+    DB --> GR: Guest entity
+    GR --> LS: Guest object
+    LS -> LS: Calculate points earned
+    LS -> DB: UPDATE guest loyalty_points
+    DB --> LS: Points updated
+    LS --> BS: Points earned
+end
+
+BS -> ALS: logActivity(actor, "PROCESS_PAYMENT", "Payment", paymentId, message)
+ALS -> DB: INSERT audit_log
+DB --> ALS: Log saved
+
+BS -> DB: Commit transaction
+DB --> BS: Transaction committed
+BS --> APC: Payment processed
+
+== Deposit at Booking ==
+Admin -> APC: Create deposit
+APC -> BS: createDeposit(billing, method, depositAmount, actor)
+
+BS -> BS: Validate depositAmount > 0
+BS -> ALS: logActivity(actor, "CREATE_DEPOSIT", "Billing", billingId, message)
+ALS -> DB: INSERT audit_log
+BS -> BS: processPayment(billing, method, depositAmount, actor)
+note right: Deposit uses same payment flow\nbut logged as CREATE_DEPOSIT
+BS --> APC: Deposit created
+
+== Partial Payment During Stay ==
+Admin -> APC: Process partial payment
+APC -> BS: processPartialPayment(billing, method, partialAmount, actor)
+
+BS -> BS: Validate partialAmount > 0
+BS -> BS: Validate partialAmount <= currentBalance
+BS -> ALS: logActivity(actor, "PARTIAL_PAYMENT", "Billing", billingId, message)
+ALS -> DB: INSERT audit_log
+BS -> BS: processPayment(billing, method, partialAmount, actor)
+note right: Partial payment uses same flow\nbut validates balance constraint
+BS --> APC: Partial payment processed
+
+APC -> APC: Refresh payment history
+APC -> Admin: Show success message
+
+@enduml

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/kiosk.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.KioskController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="header-bg">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Button onAction="#goBack" text="← Back" styleClass="btn-back" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#showRules" text="Rules &amp; Regulations" styleClass="btn-secondary" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <VBox alignment="TOP_CENTER" spacing="20.0">
+                <padding>
+                    <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+                </padding>
+
+                <Label styleClass="screen-title" text="Select Rooms" />
+
+            <!-- Suggested Room Plan (Mode A) -->
+            <VBox fx:id="suggestedPlanContainer" prefWidth="600.0" spacing="15.0" styleClass="card" visible="true">
+                <Label styleClass="subtitle" text="Available Rooms:" />
+                <TableView fx:id="suggestedRoomsTable" prefHeight="200.0" prefWidth="757.0" styleClass="table-view">
+                    <columns>
+                        <TableColumn fx:id="roomTypeColumn" minWidth="150.0" prefWidth="200.0" text="Room Type" />
+                        <TableColumn fx:id="capacityColumn" minWidth="100.0" prefWidth="120.0" text="Guests" />
+                        <TableColumn fx:id="quantityColumn" minWidth="100.0" prefWidth="150.0" text="Available" />
+                        <TableColumn fx:id="pricePerNightColumn" minWidth="150.0" prefWidth="200.0" text="Price per Night" />
+                    </columns>
+                </TableView>
+                <HBox alignment="CENTER" spacing="20.0">
+                    <Button onAction="#acceptSuggestion" prefWidth="150.0" styleClass="btn-primary" text="Accept Suggestion" />
+                    <Button onAction="#chooseCustom" prefWidth="150.0" styleClass="btn-secondary" text="Choose My Own" />
+                </HBox>
+            </VBox>
+
+            <!-- Custom Room Selection (Mode B) -->
+            <VBox fx:id="customSelectionContainer" prefWidth="600.0" spacing="15.0" styleClass="card" visible="false" managed="false">
+                <Label styleClass="subtitle" text="Select Your Rooms:" />
+                
+                <!-- Prominent Booking Policy Warning -->
+                <VBox fx:id="policyWarningContainer" spacing="10.0" alignment="CENTER" styleClass="warning-card" visible="true">
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="⚠️" styleClass="warning-icon" style="-fx-font-size: 24px;" />
+                        <Label text="Please review the booking policy before selecting rooms" styleClass="warning-text" wrapText="true" />
+                    </HBox>
+                    <Button onAction="#showBookingPolicy" prefWidth="200.0" styleClass="policy-button" text="View Booking Policy" />
+                    </VBox>
+                
+                <Label fx:id="selectedRoomsSummaryLabel" styleClass="selection-summary" text="" visible="false" managed="false" wrapText="true" />
+
+                <VBox spacing="10.0">
+                    <HBox fx:id="singleRoomRow" alignment="CENTER_LEFT" spacing="20.0" styleClass="room-selection-row">
+                        <Label prefWidth="250.0" styleClass="label-standard" text="Single Room (max 2 people)" />
+                        <Spinner fx:id="singleRoomSpinner" max="10" min="0" prefWidth="100.0" />
+                    </HBox>
+                    <HBox fx:id="doubleRoomRow" alignment="CENTER_LEFT" spacing="20.0" styleClass="room-selection-row">
+                        <Label prefWidth="250.0" styleClass="label-standard" text="Double Room (max 4 people)" />
+                        <Spinner fx:id="doubleRoomSpinner" max="10" min="0" prefWidth="100.0" />
+                    </HBox>
+                    <HBox fx:id="deluxeRoomRow" alignment="CENTER_LEFT" spacing="20.0" styleClass="room-selection-row">
+                        <Label prefWidth="250.0" styleClass="label-standard" text="Deluxe Room (max 2 people)" />
+                        <Spinner fx:id="deluxeRoomSpinner" max="10" min="0" prefWidth="100.0" />
+                    </HBox>
+                    <HBox fx:id="penthouseRoomRow" alignment="CENTER_LEFT" spacing="20.0" styleClass="room-selection-row">
+                        <Label prefWidth="250.0" styleClass="label-standard" text="Penthouse (max 2 people)" />
+                        <Spinner fx:id="penthouseSpinner" max="10" min="0" prefWidth="100.0" />
+                    </HBox>
+                </VBox>
+
+                <Label fx:id="occupancyValidationLabel" styleClass="text-error" text="" visible="false" />
+            </VBox>
+
+                <HBox alignment="CENTER" spacing="20.0">
+                    <Button onAction="#goBack" prefWidth="100.0" styleClass="btn-secondary" text="Back" />
+                    <Button fx:id="nextButtonRoomSelection" onAction="#validateRoomSelection" prefWidth="100.0" styleClass="btn-primary" text="Next" disable="true" />
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" styleClass="root" stylesheets="@../../styles/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.AdminDiscountController">
+
+    <!-- HEADER -->
+    <top>
+        <HBox spacing="20" alignment="CENTER_LEFT" styleClass="header-bg">
+            <Button text="← Back" onAction="#goBack" styleClass="btn-back"/>
+            <Label text="Apply Discount" styleClass="page-title"/>
+        </HBox>
+    </top>
+
+    <!-- CENTER FORM -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+            <VBox alignment="CENTER" spacing="30">
+                <padding>
+                    <Insets top="60" bottom="60" left="100" right="100"/>
+                </padding>
+
+            <!-- FORM CONTAINER -->
+            <VBox spacing="25" styleClass="card" prefWidth="500">
+                <Label text="Discount Application" styleClass="section-title"/>
+                <Separator />
+                
+                <!-- FORM GRID -->
+                <GridPane hgap="25" vgap="20">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" prefWidth="180" minWidth="180"/>
+                        <ColumnConstraints halignment="LEFT" prefWidth="250" minWidth="250"/>
+                    </columnConstraints>
+
+                    <!-- ROW 1: Discount % -->
+                    <Label text="Discount (%):" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-bold"/>
+                    <VBox spacing="5.0" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                        <TextField fx:id="discountField" prefWidth="250"
+                                   promptText="Enter percentage"
+                                   onKeyReleased="#calculateDiscountAmount"
+                                   styleClass="text-field"/>
+                        <Label fx:id="maxDiscountLabel" styleClass="body-text" style="-fx-font-size: 11px; -fx-text-fill: #666;" wrapText="true"/>
+                    </VBox>
+
+                    <!-- ROW 2: Original Price -->
+                    <Label text="Original Price:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-bold"/>
+                    <TextField fx:id="originalPriceField" prefWidth="250" editable="false"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="text-field"/>
+
+                    <!-- ROW 3: Discounted Price -->
+                    <Label text="Discounted Price:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-bold"/>
+                    <TextField fx:id="discountedPriceField" prefWidth="250" editable="false"
+                               GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="text-field" style="-fx-text-fill: #27ae60; -fx-font-weight: bold;"/>
+
+                </GridPane>
+
+                <!-- APPLY BUTTON -->
+                <Button text="Apply Discount"
+                        fx:id="applyBtn"
+                        prefWidth="280"
+                        onAction="#applyDiscount"
+                        styleClass="btn-info btn-large"/>
+            </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

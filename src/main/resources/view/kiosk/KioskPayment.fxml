@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/kiosk.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.KioskPaymentController">
+   <top>
+      <HBox spacing="20.0" alignment="CENTER_LEFT" styleClass="header-bg">
+         <Button onAction="#goBack" text="← Back" styleClass="btn-back" />
+         <Label styleClass="hero-title" text="Payment" />
+         <Region HBox.hgrow="ALWAYS" />
+         <Button onAction="#showRules" text="Rules &amp; Regulations" styleClass="btn-secondary" />
+      </HBox>
+   </top>
+   
+   <center>
+      <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+         <VBox spacing="30.0" alignment="CENTER">
+            <padding>
+               <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            </padding>
+            
+            <!-- Reservation Summary -->
+            <VBox spacing="12.0" alignment="CENTER" prefWidth="600.0" styleClass="card">
+               <Label styleClass="subtitle" text="Reservation Summary" />
+               <Separator />
+               <Label fx:id="reservationSummaryLabel" styleClass="body-text" wrapText="true" />
+            </VBox>
+            
+            <!-- Current Balance -->
+            <VBox spacing="15.0" alignment="CENTER" prefWidth="600.0" styleClass="card">
+               <Label styleClass="subtitle" text="Payment Information" />
+               <Separator />
+               <GridPane hgap="20.0" vgap="15.0" alignment="CENTER">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="200.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" halignment="LEFT" />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints minHeight="30.0" />
+                     <RowConstraints minHeight="30.0" />
+                  </rowConstraints>
+                  <children>
+                     <Label text="Current Balance:" GridPane.rowIndex="0" styleClass="label-bold" />
+                     <Label fx:id="currentBalanceLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="body-text-large" />
+                     <Label text="Amount to Pay:" GridPane.rowIndex="1" styleClass="label-bold" />
+                     <Label fx:id="amountToPayLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-success-large" />
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <!-- Payment Form -->
+            <VBox spacing="20.0" alignment="CENTER" prefWidth="500.0" styleClass="card">
+               <Label styleClass="subtitle" text="Process Payment" />
+               <Separator />
+               
+               <VBox spacing="15.0" alignment="CENTER">
+                  <Label text="Payment Method:" styleClass="label-bold" />
+                  <VBox spacing="8.0" alignment="CENTER_LEFT">
+                     <RadioButton fx:id="cashRadioButton" selected="true" text="Cash" styleClass="radio-button" onAction="#onPaymentMethodChanged" />
+                     <RadioButton fx:id="cardRadioButton" text="Card" styleClass="radio-button" onAction="#onPaymentMethodChanged" />
+                     <RadioButton fx:id="pointsRadioButton" text="Loyalty Points" styleClass="radio-button" onAction="#onPaymentMethodChanged" />
+                  </VBox>
+                  
+                  <!-- Loyalty Points Information (shown when points selected) -->
+                  <VBox fx:id="loyaltyPointsInfoContainer" spacing="10.0" alignment="CENTER" visible="false" managed="false" styleClass="card-info">
+                     <Label styleClass="label-bold" text="Loyalty Points Details" />
+                     <Separator />
+                     <VBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label fx:id="availablePointsLabel" styleClass="body-text" />
+                        <Label fx:id="pointsConversionLabel" styleClass="body-text" />
+                        <Label fx:id="pointsDeductionLabel" styleClass="body-text" />
+                        <Label fx:id="finalPriceAfterPointsLabel" styleClass="body-text-bold" />
+                     </VBox>
+                  </VBox>
+               </VBox>
+               
+               <Button fx:id="processPaymentButton" onAction="#processPayment" prefWidth="250.0" text="Process Payment" styleClass="confirm-button" />
+            </VBox>
+         </VBox>
+      </ScrollPane>
+   </center>
+   
+</BorderPane>
+
+

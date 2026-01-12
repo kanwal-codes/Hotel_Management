@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/feedback.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.FeedbackController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="header-bg">
+            <padding>
+                <Insets top="15.0" right="30.0" bottom="15.0" left="30.0"/>
+            </padding>
+            <Button text="← Back" styleClass="btn-back" onAction="#handleBack"/>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="30.0" alignment="CENTER">
+            <padding>
+                <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            </padding>
+
+            <!-- Title -->
+            <Label styleClass="title" text="Share Your Feedback" />
+
+            <!-- Reservation Information -->
+            <VBox spacing="10.0" alignment="CENTER" prefWidth="500.0" styleClass="card">
+                <Label styleClass="subtitle" text="Reservation Information" />
+                <Label fx:id="reservationInfoLabel" styleClass="body-text" />
+            </VBox>
+
+            <!-- Rating Selection -->
+            <VBox spacing="15.0" alignment="CENTER" styleClass="card">
+                <Label styleClass="subtitle" text="How would you rate your stay?" />
+                <HBox spacing="10.0" alignment="CENTER">
+                    <RadioButton fx:id="rating1" text="1" styleClass="radio-button" />
+                    <RadioButton fx:id="rating2" text="2" styleClass="radio-button" />
+                    <RadioButton fx:id="rating3" text="3" styleClass="radio-button" />
+                    <RadioButton fx:id="rating4" text="4" styleClass="radio-button" />
+                    <RadioButton fx:id="rating5" text="5" styleClass="radio-button" />
+                </HBox>
+                <Label fx:id="ratingErrorLabel" styleClass="text-error" text="" visible="false" />
+            </VBox>
+
+            <!-- Comments -->
+            <VBox spacing="10.0" alignment="CENTER" prefWidth="500.0" styleClass="card">
+                <Label styleClass="subtitle" text="Comments (Optional)" />
+                <TextArea fx:id="commentsField" onKeyReleased="#updateCharCount" prefHeight="150.0" prefWidth="500.0" promptText="Share your experience..." wrapText="true" styleClass="text-area" />
+                <HBox spacing="10.0" alignment="CENTER">
+                    <Label fx:id="charCountLabel" styleClass="label-standard" text="0/1000 characters" />
+                </HBox>
+                <Label fx:id="commentsErrorLabel" styleClass="text-error" text="" visible="false" />
+            </VBox>
+
+            <!-- Submit Buttons -->
+            <HBox spacing="20.0" alignment="CENTER">
+                <Button onAction="#skipFeedback" prefWidth="100.0" text="Skip" styleClass="btn-secondary" />
+                <Button onAction="#submitFeedback" prefWidth="150.0" text="Submit Feedback" styleClass="btn-primary" />
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>
+

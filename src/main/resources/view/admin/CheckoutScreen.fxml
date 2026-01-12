@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.AdminCheckoutController">
+   <top>
+      <HBox spacing="20.0" alignment="CENTER_LEFT" styleClass="header-bg">
+         <Button onAction="#goBack" text="← Back" styleClass="btn-back" />
+         <Label styleClass="page-title" text="Checkout" />
+      </HBox>
+   </top>
+   
+   <center>
+      <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+         <VBox spacing="20.0" alignment="CENTER">
+            <padding>
+               <Insets bottom="40.0" left="50.0" right="50.0" top="40.0" />
+            </padding>
+            
+            <!-- Reservation Summary -->
+            <VBox spacing="12.0" alignment="CENTER" prefWidth="650.0" styleClass="card">
+               <Label styleClass="section-title" text="Reservation Summary" />
+               <Separator />
+               <GridPane hgap="20.0" vgap="10.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="200.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="250.0" halignment="LEFT" />
+                  </columnConstraints>
+                  <children>
+                     <Label text="Reservation Number:" GridPane.rowIndex="0" styleClass="label-bold" />
+                     <Label fx:id="reservationNumberLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="body-text" />
+                     
+                     <Label text="Guest Name:" GridPane.rowIndex="1" styleClass="label-bold" />
+                     <Label fx:id="guestNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="body-text" />
+                     
+                     <Label text="Check-in Date:" GridPane.rowIndex="2" styleClass="label-bold" />
+                     <Label fx:id="checkInDateLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="body-text" />
+                     
+                     <Label text="Scheduled Check-out:" GridPane.rowIndex="3" styleClass="label-bold" />
+                     <Label fx:id="checkOutDateLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="body-text" />
+                     
+                     <Label text="Actual Check-out:" GridPane.rowIndex="4" styleClass="label-bold" />
+                     <DatePicker fx:id="actualCheckOutDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="date-picker" />
+                     
+                     <Label text="Number of Nights:" GridPane.rowIndex="5" styleClass="label-bold" />
+                     <Label fx:id="numNightsLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="body-text" />
+                     
+                     <Label text="Rooms:" GridPane.rowIndex="6" styleClass="label-bold" />
+                     <Label fx:id="roomsLabel" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="body-text" />
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <!-- Itemized Charges -->
+            <VBox spacing="12.0" alignment="CENTER" prefWidth="650.0" styleClass="card">
+               <Label styleClass="section-title" text="Itemized Charges" />
+               <Separator />
+               <TableView fx:id="chargesTable" prefHeight="200.0" prefWidth="600.0" styleClass="table-view">
+                  <columns>
+                     <TableColumn fx:id="descriptionColumn" minWidth="250.0" text="Description" />
+                     <TableColumn fx:id="quantityColumn" minWidth="100.0" text="Quantity" />
+                     <TableColumn fx:id="unitPriceColumn" minWidth="120.0" text="Unit Price" />
+                     <TableColumn fx:id="totalColumn" minWidth="130.0" text="Total" />
+                  </columns>
+               </TableView>
+            </VBox>
+            
+            <!-- Add-Ons Breakdown -->
+            <VBox fx:id="addOnsContainer" spacing="12.0" alignment="CENTER" visible="false" prefWidth="650.0" styleClass="card">
+               <Label styleClass="subtitle" text="Add-On Services" />
+               <Separator />
+               <VBox fx:id="addOnsListContainer" spacing="8.0" />
+            </VBox>
+            
+            <!-- Final Bill Display -->
+            <VBox spacing="15.0" alignment="CENTER" prefWidth="650.0" styleClass="card" style="-fx-border-color: #3498db; -fx-border-width: 2;">
+               <Label styleClass="section-title" text="Final Bill" />
+               <Separator />
+               
+               <GridPane hgap="25.0" vgap="12.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="220.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="180.0" halignment="LEFT" />
+                  </columnConstraints>
+                  
+                  <children>
+                     <Label text="Room Charges:" GridPane.rowIndex="0" styleClass="billing-label" />
+                     <Label fx:id="roomChargesLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="billing-value" />
+                     
+                     <Label text="Add-Ons Total:" GridPane.rowIndex="1" styleClass="billing-label" />
+                     <Label fx:id="addOnsTotalLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="billing-value" />
+                     
+                     <Label text="Subtotal:" GridPane.rowIndex="2" styleClass="billing-label" />
+                     <Label fx:id="subtotalLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="billing-value" />
+                     
+                     <Label text="Tax Rate:" GridPane.rowIndex="3" styleClass="billing-label" />
+                     <Label fx:id="taxRateDisplayLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="billing-value" />
+                     
+                     <Label text="Tax Amount:" GridPane.rowIndex="4" styleClass="billing-label" />
+                     <Label fx:id="taxLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="billing-value" />
+                     
+                     <VBox fx:id="discountContainer" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                        <HBox spacing="20.0" alignment="CENTER_LEFT">
+                           <Label text="Discounts Applied:" styleClass="billing-label" />
+                           <Label fx:id="discountLabel" alignment="CENTER_RIGHT" styleClass="billing-success" />
+                        </HBox>
+                     </VBox>
+                     
+                     <VBox fx:id="loyaltyContainer" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                        <HBox spacing="20.0" alignment="CENTER_LEFT">
+                           <Label text="Loyalty Redemption:" styleClass="billing-label" />
+                           <Label fx:id="loyaltyLabel" alignment="CENTER_RIGHT" styleClass="billing-success" />
+                        </HBox>
+                     </VBox>
+                     
+                     <Separator GridPane.columnSpan="2" GridPane.rowIndex="7" />
+                     
+                     <Label styleClass="billing-total" text="Total Amount:" GridPane.rowIndex="8" />
+                     <Label fx:id="totalAmountLabel" alignment="CENTER_RIGHT" styleClass="billing-total" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                     
+                     <Separator GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                     
+                     <Label text="Paid Amount:" GridPane.rowIndex="10" styleClass="billing-label" />
+                     <Label fx:id="paidAmountLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="billing-success" />
+                     
+                     <Label text="Balance:" GridPane.rowIndex="11" styleClass="billing-label" style="-fx-font-size: 16px;" />
+                     <Label fx:id="balanceLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="11" styleClass="billing-error" />
+                  </children>
+               </GridPane>
+            </VBox>
+            
+            <!-- Payment History Summary -->
+            <VBox spacing="12.0" alignment="CENTER" prefWidth="650.0" styleClass="card">
+               <Label styleClass="section-title" text="Payment History" />
+               <Separator />
+               <TableView fx:id="paymentHistoryTable" prefHeight="150.0" prefWidth="600.0" styleClass="table-view">
+                  <columns>
+                     <TableColumn fx:id="paymentDateColumn" minWidth="150.0" text="Date" />
+                     <TableColumn fx:id="paymentMethodColumn" minWidth="120.0" text="Method" />
+                     <TableColumn fx:id="paymentAmountColumn" minWidth="150.0" text="Amount" />
+                     <TableColumn fx:id="paymentTypeColumn" minWidth="100.0" text="Type" />
+                     <TableColumn fx:id="paymentStatusColumn" minWidth="80.0" text="Status" />
+                  </columns>
+               </TableView>
+            </VBox>
+            
+            <!-- Payment Processing (if balance remains) -->
+            <VBox fx:id="paymentContainer" spacing="20.0" alignment="CENTER" visible="false" prefWidth="500.0" styleClass="card-warning">
+               <Label styleClass="section-title" style="-fx-text-fill: #856404;" text="Settle Remaining Balance" />
+               <Separator />
+               <GridPane hgap="20.0" vgap="15.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="NEVER" minWidth="150.0" halignment="RIGHT" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="250.0" />
+                  </columnConstraints>
+                  
+                  <children>
+                     <Label text="Payment Method:" GridPane.rowIndex="0" styleClass="label-bold" style="-fx-text-fill: #856404;" />
+                     <ComboBox fx:id="paymentMethodComboBox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="combo-box" />
+                     
+                     <Label text="Amount:" GridPane.rowIndex="1" styleClass="label-bold" style="-fx-text-fill: #856404;" />
+                     <TextField fx:id="finalPaymentAmountField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field" />
+                  </children>
+               </GridPane>
+               <Button onAction="#processFinalPayment" text="Process Payment" styleClass="btn-success" />
+            </VBox>
+            
+            <!-- Actions -->
+            <VBox spacing="12.0" alignment="CENTER" prefWidth="700.0" styleClass="card">
+               <Label styleClass="section-title" text="Actions" />
+               <Separator />
+               
+               <GridPane hgap="15.0" vgap="12.0" alignment="CENTER">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0" maxWidth="350.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0" maxWidth="350.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints minHeight="40.0" />
+                     <RowConstraints minHeight="40.0" />
+                  </rowConstraints>
+                  
+                  <children>
+                     <Button fx:id="generateFinalBillButton" onAction="#generateFinalBill" text="Generate Final Bill" styleClass="btn-primary btn-large" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button fx:id="settleButton" disable="true" onAction="#settleBalance" text="Settle Balance" styleClass="btn-success btn-large" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button fx:id="markRoomsButton" disable="true" onAction="#markRoomsAvailable" text="Mark Rooms Available" styleClass="btn-warning btn-large" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#printReceipt" text="Print Receipt" styleClass="btn-secondary btn-large" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </GridPane>
+               
+               <Separator prefWidth="650.0" />
+               
+               <VBox spacing="10.0" alignment="CENTER">
+                  <Label styleClass="subtitle" text="Customer Feedback" />
+                  <Button fx:id="feedbackButton" onAction="#openFeedbackScreen" prefWidth="300.0" text="Open Feedback Screen for Customer" styleClass="btn-primary" />
+                  <Label styleClass="body-text" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" text="Click to open feedback form for the customer" wrapText="true" />
+               </VBox>
+            </VBox>
+            
+            <Label fx:id="checkoutSuccessLabel" styleClass="text-success" style="-fx-font-size: 16px; -fx-padding: 10;" text="" visible="false" />
+         </VBox>
+      </ScrollPane>
+   </center>
+   
+</BorderPane>

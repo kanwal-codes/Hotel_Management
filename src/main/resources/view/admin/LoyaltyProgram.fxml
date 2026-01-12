@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.LoyaltyController">
+   <top>
+      <HBox spacing="20.0" alignment="CENTER_LEFT" styleClass="header-bg">
+         <Button fx:id="backButton" onAction="#goBack" text="← Back" styleClass="btn-back" />
+         <Label styleClass="page-title" text="Loyalty Program" />
+      </HBox>
+   </top>
+   
+   <center>
+      <TabPane fx:id="mainTabPane" styleClass="scroll-pane">
+         <!-- Enrolled Guests Tab (Default) -->
+         <Tab text="Enrolled Guests" onSelectionChanged="#onEnrolledGuestsTabSelected">
+            <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+               <VBox spacing="25.0">
+                  <padding>
+                     <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                  </padding>
+                  
+                  <VBox spacing="20.0" prefWidth="800.0" styleClass="card">
+                     <Label styleClass="section-title" text="Enrolled Guests" />
+                     <Separator />
+                     
+                     <VBox spacing="15.0">
+                        <Label styleClass="body-text" text="Click on a guest to view their loyalty details" />
+                        <TableView fx:id="enrolledGuestsTable" prefHeight="500.0" styleClass="table-view" onMouseClicked="#selectEnrolledGuest">
+                           <columns>
+                              <TableColumn fx:id="enrolledGuestNameColumn" minWidth="200.0" prefWidth="250.0" text="Name" />
+                              <TableColumn fx:id="enrolledGuestEmailColumn" minWidth="200.0" prefWidth="250.0" text="Email" />
+                              <TableColumn fx:id="enrolledGuestPhoneColumn" minWidth="150.0" prefWidth="150.0" text="Phone" />
+                              <TableColumn fx:id="enrolledLoyaltyNumberColumn" minWidth="150.0" prefWidth="150.0" text="Loyalty Number" />
+                              <TableColumn fx:id="enrolledPointsColumn" minWidth="100.0" prefWidth="100.0" text="Points" />
+                           </columns>
+                        </TableView>
+                     </VBox>
+                  </VBox>
+               </VBox>
+            </ScrollPane>
+         </Tab>
+         
+         <!-- Guest Details Tab -->
+         <Tab text="Guest Details" onSelectionChanged="#onGuestDetailsTabSelected">
+            <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+               <VBox spacing="25.0">
+                  <padding>
+                     <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                  </padding>
+                  
+                  <!-- Guest Details Container -->
+                  <VBox fx:id="enrolledGuestDetailsContainer" spacing="20.0" prefWidth="800.0" styleClass="card">
+                     <Label styleClass="section-title" text="Guest Details" />
+                     <Separator />
+                     <VBox fx:id="enrolledGuestInfoContainer" spacing="15.0">
+                        <Label fx:id="enrolledGuestInfoLabel" styleClass="body-text" wrapText="true" />
+                     </VBox>
+                     
+                     <!-- Loyalty Dashboard for Selected Guest -->
+                     <VBox fx:id="loyaltyDashboardContainer" spacing="20.0" visible="false" managed="false">
+                        <!-- Current Balance -->
+                        <VBox spacing="10.0" alignment="CENTER" styleClass="card-success">
+                           <Label styleClass="stat-label" text="Current Balance" />
+                           <Label fx:id="currentBalanceLabel" styleClass="text-success-large" />
+                        </VBox>
+                        
+                        <!-- Earning History -->
+                        <VBox spacing="12.0" styleClass="card">
+                           <Label styleClass="section-title" text="Earning History" />
+                           <Separator />
+                           <TableView fx:id="earningHistoryTable" prefHeight="180.0" styleClass="table-view">
+                              <columns>
+                                 <TableColumn minWidth="180.0" text="Date" />
+                                 <TableColumn minWidth="180.0" text="Amount Paid" />
+                                 <TableColumn minWidth="180.0" text="Points Earned" />
+                              </columns>
+                           </TableView>
+                        </VBox>
+                        
+                        <!-- Redemption History -->
+                        <VBox spacing="12.0" styleClass="card">
+                           <Label styleClass="section-title" text="Redemption History" />
+                           <Separator />
+                           <TableView fx:id="redemptionHistoryTable" prefHeight="180.0" styleClass="table-view">
+                              <columns>
+                                 <TableColumn minWidth="180.0" text="Date" />
+                                 <TableColumn minWidth="180.0" text="Points Redeemed" />
+                                 <TableColumn minWidth="180.0" text="Discount Applied" />
+                              </columns>
+                           </TableView>
+                        </VBox>
+                     </VBox>
+                  </VBox>
+               </VBox>
+            </ScrollPane>
+         </Tab>
+         
+         <!-- Enroll People Tab -->
+         <Tab text="Enroll People" onSelectionChanged="#onEnrollPeopleTabSelected">
+            <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+               <VBox spacing="25.0">
+                  <padding>
+                     <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                  </padding>
+                  
+                  <VBox spacing="20.0" prefWidth="800.0" styleClass="card">
+                     <Label styleClass="section-title" text="Guests Available for Enrollment" />
+                     <Separator />
+                     
+                     <VBox spacing="15.0">
+                        <Label styleClass="body-text" text="Only guests with email and password (account) are eligible for enrollment." wrapText="true" />
+                        <Label styleClass="body-text" text="Click on a guest to enroll them in the loyalty program." wrapText="true" />
+                        <TableView fx:id="nonEnrolledGuestsTable" prefHeight="400.0" styleClass="table-view" onMouseClicked="#selectNonEnrolledGuest">
+                           <columns>
+                              <TableColumn fx:id="nonEnrolledGuestNameColumn" minWidth="200.0" prefWidth="250.0" text="Name" />
+                              <TableColumn fx:id="nonEnrolledGuestEmailColumn" minWidth="200.0" prefWidth="250.0" text="Email" />
+                              <TableColumn fx:id="nonEnrolledGuestPhoneColumn" minWidth="150.0" prefWidth="150.0" text="Phone" />
+                              <TableColumn fx:id="hasAccountColumn" minWidth="150.0" prefWidth="150.0" text="Has Account" />
+                           </columns>
+                        </TableView>
+                     </VBox>
+                  </VBox>
+                  
+                  <!-- Guest Info Container for Enrollment -->
+                  <VBox fx:id="enrollGuestInfoContainer" spacing="15.0" prefWidth="800.0" visible="false" managed="false" styleClass="card-success">
+                     <Label styleClass="section-title" text="Guest Information:" />
+                     <Separator />
+                     <Label fx:id="enrollGuestInfoLabel" styleClass="body-text" wrapText="true" />
+                     <Button fx:id="enrollButton" onAction="#enrollGuest" text="Enroll in Loyalty Program" styleClass="btn-success btn-large" />
+                  </VBox>
+               </VBox>
+            </ScrollPane>
+         </Tab>
+      </TabPane>
+   </center>
+   
+</BorderPane>

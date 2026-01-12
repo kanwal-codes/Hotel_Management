@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@../../styles/kiosk.css" 
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.hotel.controller.BrowseServicesController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="header-bg">
+            <padding>
+                <Insets top="15.0" right="30.0" bottom="15.0" left="30.0"/>
+            </padding>
+            <Button text="← Back" styleClass="btn-back" onAction="#handleBack"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Browse Amenities" styleClass="hero-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button onAction="#showRules" text="Rules &amp; Regulations" styleClass="btn-secondary" />
+        </HBox>
+    </top>
+    
+    <center>
+        <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" styleClass="scroll-pane">
+            <VBox alignment="TOP_CENTER" spacing="25.0">
+                <padding>
+                    <Insets bottom="40.0" left="50.0" right="50.0" top="40.0"/>
+                </padding>
+                
+                <!-- Title -->
+                <VBox spacing="10.0" alignment="CENTER">
+                    <Label styleClass="welcome-title" text="Hotel Amenities" />
+                    <Label styleClass="welcome-subtitle" text="Book your preferred amenity and time slot" />
+                </VBox>
+                
+                <!-- Amenities Grid -->
+                <GridPane hgap="20.0" vgap="20.0" alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="300.0" />
+                        <ColumnConstraints prefWidth="300.0" />
+                        <ColumnConstraints prefWidth="300.0" />
+                    </columnConstraints>
+                    
+                    <!-- Gym -->
+                    <VBox spacing="10.0" alignment="CENTER" styleClass="card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label styleClass="label-bold" text="🏋️ Gym" style="-fx-font-size: 24px;" />
+                        <Label styleClass="body-text" text="Fully equipped fitness center" wrapText="true" style="-fx-text-alignment: center;" />
+                        <Button text="Book Now" styleClass="btn-primary" onAction="#handleBookAmenity" userData="Gym" prefWidth="200.0" />
+                    </VBox>
+                    
+                    <!-- Spa -->
+                    <VBox spacing="10.0" alignment="CENTER" styleClass="card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label styleClass="label-bold" text="💆 Spa" style="-fx-font-size: 24px;" />
+                        <Label styleClass="body-text" text="Relaxing spa treatments" wrapText="true" style="-fx-text-alignment: center;" />
+                        <Button text="Book Now" styleClass="btn-primary" onAction="#handleBookAmenity" userData="Spa" prefWidth="200.0" />
+                    </VBox>
+                    
+                    <!-- Tanning -->
+                    <VBox spacing="10.0" alignment="CENTER" styleClass="card" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <Label styleClass="label-bold" text="☀️ Tanning" style="-fx-font-size: 24px;" />
+                        <Label styleClass="body-text" text="Tanning bed sessions" wrapText="true" style="-fx-text-alignment: center;" />
+                        <Button text="Book Now" styleClass="btn-primary" onAction="#handleBookAmenity" userData="Tanning" prefWidth="200.0" />
+                    </VBox>
+                    
+                    <!-- Pool -->
+                    <VBox spacing="10.0" alignment="CENTER" styleClass="card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label styleClass="label-bold" text="🏊 Pool" style="-fx-font-size: 24px;" />
+                        <Label styleClass="body-text" text="Swimming pool access" wrapText="true" style="-fx-text-alignment: center;" />
+                        <Button text="Book Now" styleClass="btn-primary" onAction="#handleBookAmenity" userData="Pool" prefWidth="200.0" />
+                    </VBox>
+                    
+                    <!-- Sauna -->
+                    <VBox spacing="10.0" alignment="CENTER" styleClass="card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label styleClass="label-bold" text="🧖 Sauna" style="-fx-font-size: 24px;" />
+                        <Label styleClass="body-text" text="Steam room and sauna" wrapText="true" style="-fx-text-alignment: center;" />
+                        <Button text="Book Now" styleClass="btn-primary" onAction="#handleBookAmenity" userData="Sauna" prefWidth="200.0" />
+                    </VBox>
+                    
+                    <!-- Yoga Studio -->
+                    <VBox spacing="10.0" alignment="CENTER" styleClass="card" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Label styleClass="label-bold" text="🧘 Yoga Studio" style="-fx-font-size: 24px;" />
+                        <Label styleClass="body-text" text="Yoga and meditation classes" wrapText="true" style="-fx-text-alignment: center;" />
+                        <Button text="Book Now" styleClass="btn-primary" onAction="#handleBookAmenity" userData="Yoga Studio" prefWidth="200.0" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

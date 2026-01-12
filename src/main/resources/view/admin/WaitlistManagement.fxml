@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="800.0" prefHeight="800.0" prefWidth="900.0" styleClass="root" stylesheets="@../../styles/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.controller.AdminWaitlistController">
+   <top>
+      <HBox spacing="20.0" alignment="CENTER_LEFT" styleClass="header-bg">
+         <Button onAction="#goBack" text="← Back" styleClass="btn-back" />
+         <Label styleClass="page-title" text="Waitlist Management" />
+      </HBox>
+   </top>
+
+   <center>
+      <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+         <VBox spacing="20.0">
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+
+         <!-- Filters -->
+         <VBox spacing="12.0" styleClass="card">
+            <Label styleClass="section-title" text="Filter Waitlist" />
+            <Separator />
+            <GridPane hgap="15.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="80.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="100.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="80.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+               </columnConstraints>
+               <children>
+                  <Label text="Status:" styleClass="label-bold" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                  <ComboBox fx:id="statusFilterComboBox" onAction="#filterWaitlist" prefWidth="150.0" promptText="All Statuses" styleClass="combo-box" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                  <Label text="Room Type:" styleClass="label-bold" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                  <ComboBox fx:id="roomTypeFilterComboBox" onAction="#filterWaitlist" prefWidth="150.0" promptText="All Types" styleClass="combo-box" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                  <Label text="Guest:" styleClass="label-bold" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                  <TextField fx:id="guestSearchField" onKeyReleased="#filterWaitlist" prefWidth="200.0" promptText="Search guest name or phone" styleClass="text-field" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+               </children>
+            </GridPane>
+            <HBox spacing="12.0" alignment="CENTER_LEFT">
+               <Button onAction="#filterWaitlist" text="Apply Filters" styleClass="btn-success" />
+               <Button onAction="#clearWaitlistFilters" text="Clear Filters" styleClass="btn-secondary" />
+            </HBox>
+         </VBox>
+
+         <!-- Statistics -->
+         <HBox spacing="30.0" alignment="CENTER" styleClass="stat-card">
+            <VBox spacing="8.0" alignment="CENTER">
+               <Label styleClass="stat-label" text="Total Waitlist" />
+               <Label fx:id="totalWaitlistLabel" styleClass="stat-value" />
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="60.0" />
+            <VBox spacing="8.0" alignment="CENTER">
+               <Label styleClass="stat-label" text="Pending" />
+               <Label fx:id="pendingLabel" styleClass="stat-value" />
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="60.0" />
+            <VBox spacing="8.0" alignment="CENTER">
+               <Label styleClass="stat-label" text="Notified" />
+               <Label fx:id="notifiedLabel" styleClass="stat-value" />
+            </VBox>
+         </HBox>
+
+         <!-- Waitlist Table -->
+         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+            <Label styleClass="section-title" text="Waitlist Entries" />
+            <TableView fx:id="waitlistTable" prefHeight="300.0" VBox.vgrow="ALWAYS" styleClass="table-view">
+               <columns>
+                  <TableColumn fx:id="guestNameColumn" minWidth="150.0" text="Guest Name" />
+                  <TableColumn fx:id="guestPhoneColumn" minWidth="120.0" text="Phone" />
+                  <TableColumn fx:id="roomTypeColumn" minWidth="100.0" text="Room Type" />
+                  <TableColumn fx:id="startDateColumn" minWidth="120.0" text="Start Date" />
+                  <TableColumn fx:id="endDateColumn" minWidth="120.0" text="End Date" />
+                  <TableColumn fx:id="statusColumn" minWidth="100.0" text="Status" />
+               </columns>
+            </TableView>
+         </VBox>
+
+         <!-- Action Buttons -->
+         <HBox spacing="15.0" alignment="CENTER" styleClass="pagination-container">
+            <Button onAction="#addToWaitlist" prefWidth="200.0" text="+ Add to Waitlist" styleClass="btn-success" />
+            <Button fx:id="convertButton" onAction="#convertToReservation" prefWidth="200.0" text="Convert to Reservation" styleClass="btn-primary" />
+            <Button fx:id="removeButton" onAction="#removeFromWaitlist" prefWidth="200.0" text="Remove from Waitlist" styleClass="btn-danger" />
+         </HBox>
+      </VBox>
+      </ScrollPane>
+   </center>
+
+</BorderPane>
+

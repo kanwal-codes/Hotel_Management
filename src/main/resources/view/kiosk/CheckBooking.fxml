@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="700.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@../../styles/kiosk.css" 
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.hotel.controller.CheckBookingController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="header-bg">
+            <padding>
+                <Insets top="15.0" right="30.0" bottom="15.0" left="30.0"/>
+            </padding>
+            <Button text="← Back" styleClass="btn-back" onAction="#handleBack"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Check Booking" styleClass="hero-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button onAction="#showRules" text="Rules &amp; Regulations" styleClass="btn-secondary" />
+        </HBox>
+    </top>
+    
+    <center>
+        <StackPane>
+            <!-- Input Form (shown initially) -->
+            <VBox fx:id="inputFormContainer" alignment="CENTER" spacing="30.0" prefWidth="600.0">
+                <padding>
+                    <Insets top="40.0" bottom="40.0" left="50.0" right="50.0"/>
+                </padding>
+                
+                <VBox spacing="15.0" alignment="CENTER" styleClass="card" prefWidth="500.0">
+                    <padding>
+                        <Insets top="30.0" bottom="30.0" left="40.0" right="40.0"/>
+                    </padding>
+                    
+                    <Label text="Enter Booking Information" styleClass="screen-title"/>
+                    <Label text="Reservation number is required. Please also provide either email or name for verification." styleClass="body-text" wrapText="true" prefWidth="400.0"/>
+                    
+                    <VBox spacing="10.0" prefWidth="400.0">
+                        <VBox spacing="5.0">
+                            <Label text="Reservation Number *" styleClass="label-bold"/>
+                            <TextField fx:id="reservationNumberField" promptText="Enter reservation number" styleClass="text-field" prefWidth="400.0"/>
+                        </VBox>
+                        
+                        <VBox spacing="5.0">
+                            <Label text="Email" styleClass="label-bold"/>
+                            <TextField fx:id="emailField" promptText="Enter email address" styleClass="text-field" prefWidth="400.0"/>
+                        </VBox>
+                        
+                        <Label text="OR" styleClass="body-text" alignment="CENTER" style="-fx-alignment: center;"/>
+                        
+                        <VBox spacing="5.0">
+                            <Label text="Name" styleClass="label-bold"/>
+                            <TextField fx:id="nameField" promptText="Enter guest name" styleClass="text-field" prefWidth="400.0"/>
+                        </VBox>
+                    </VBox>
+                    
+                    <Label fx:id="errorLabel" text="" visible="false" styleClass="text-error" wrapText="true" prefWidth="400.0"/>
+                    
+                    <Button text="Verify &amp; View Booking" prefWidth="400.0" prefHeight="45.0" styleClass="btn-primary" onAction="#handleViewBooking"/>
+                </VBox>
+            </VBox>
+            
+            <!-- Booking Details (shown after lookup, overlays input form) -->
+            <VBox fx:id="bookingDetailsContainer" spacing="15.0" alignment="TOP_LEFT" styleClass="card" prefWidth="800.0" maxWidth="900.0" visible="false" managed="false">
+                <padding>
+                    <Insets top="30.0" bottom="30.0" left="40.0" right="40.0"/>
+                </padding>
+                
+                <Label text="Booking Details" styleClass="screen-title"/>
+                <Separator/>
+                
+                <VBox spacing="8.0">
+                    <Label fx:id="reservationNumberLabel" styleClass="label-bold"/>
+                    <Label fx:id="guestNameLabel" styleClass="body-text"/>
+                    <Label fx:id="checkInLabel" styleClass="body-text"/>
+                    <Label fx:id="checkOutLabel" styleClass="body-text"/>
+                    <Label fx:id="statusLabel" styleClass="body-text"/>
+                    <Label fx:id="roomsLabel" styleClass="body-text"/>
+                    <Label fx:id="totalLabel" styleClass="label-bold"/>
+                </VBox>
+                
+                <Separator/>
+                
+                <HBox spacing="15.0" alignment="CENTER_LEFT">
+                    <Button text="Print Receipt" styleClass="btn-secondary" onAction="#handlePrintReceipt"/>
+                    <Button fx:id="payNowButton" text="Pay Now" styleClass="btn-primary" onAction="#handlePayNow" visible="false"/>
+                    <Button fx:id="cancelButton" text="Cancel Booking" styleClass="btn-secondary" onAction="#handleCancelBooking" visible="false"/>
+                    <Button fx:id="checkInButton" text="Check-In" styleClass="btn-primary" onAction="#handleCheckIn" visible="false"/>
+                    <Button fx:id="checkOutButton" text="Check-Out" styleClass="btn-primary" onAction="#handleCheckOut" visible="false"/>
+                    <Button text="New Search" styleClass="btn-secondary" onAction="#handleNewSearch"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
+
